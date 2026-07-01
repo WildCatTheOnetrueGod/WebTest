@@ -1,0 +1,50 @@
+<div class="page_title">地圖與景點</div>
+<div style="padding: 5px; margin: 5px; display: flex;
+    align-items: left;">
+    <div id="gallery-app-container"></div>
+</div>
+<script>
+(function() {
+const Picture = [
+    {
+        title: "地圖1",//圖片合集名稱
+        url: "./img/Map/1.png",//圖片合集封面圖源/首圖
+        notes: "這幅畫展現了古鎮北端太陰廟在子時的詭異全景，周圍伴隨有不穩定的迷霧結界。",//首圖說明
+        view: [//其餘圖片標題/圖源/說明
+            { title: "局部：白燈籠特寫", url: "./img/Map/1.png", notes: "掛在廟簷左側的長明白燈籠，上面隱約浮現出不屬於人間的符文。" },
+            { title: "局部：正殿木魚", url: "./img/Map/1.png", notes: "放置於供桌中央的漆黑木魚，深夜會自行發出無人敲擊的沉悶聲響。" }
+        ]
+    },
+    {
+        title: "地圖2",
+        url: "./img/Map/2.jpg",
+        notes: "於冰川底部掘出的古神石雕全貌，長期注視可能導致理智值下降。",
+        view: [
+            { title: "局部：青銅複眼", url: "./img/Map/2.png", notes: "雕像頂部的複眼結構，似乎具有捕捉觀測者視線的動態視覺功能。" }
+        ]
+    },
+    {
+        title: "地圖3",
+        url: "./img/Map/3.png",
+        notes: "二師弟清風為了逃避熬夜而研發的自動化印刷法陣全景圖。",
+        view: []
+    },
+    {
+        title: "地圖4",
+        url: "./img/Map/4.jpg",
+        notes: "二師弟清風為了逃避熬夜而研發的自動化印刷法陣全景圖。",
+        view: []
+    },
+    {
+        title: "地圖5",
+        url: "./img/Map/5.jpg",
+        notes: "二師弟清風為了逃避熬夜而研發的自動化印刷法陣全景圖。",
+        view: []
+    }
+
+
+];
+
+initGalleryApp("gallery-app-container", Picture);
+})();
+</script>

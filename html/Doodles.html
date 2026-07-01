@@ -1,0 +1,30 @@
+<div class="page_title">塗鴉/雜圖</div>
+<div style="padding: 5px; margin: 5px; display: flex;
+    align-items: left;">
+    <div id="gallery-app-container"></div>
+</div>
+<script>
+    (function() {
+    const Picture = [
+         {
+            title: "地圖1",
+            url: "./img/Map/1.png",
+            notes: "這幅畫展現了古鎮北端太陰廟在子時的詭異全景，周圍伴隨有不穩定的迷霧結界。",
+            view: []
+        },
+        {
+            title: "地圖2",
+            url: "./img/Map/2.jpg",
+            notes: "於冰川底部掘出的古神石雕全貌，長期注視可能導致理智值下降。",
+            view: []
+        },
+        {
+            title: "地圖3",
+            url: "",
+            notes: "",
+            view: []
+        }
+    ];
+initGalleryApp("gallery-app-container", Picture);
+})();
+</script>

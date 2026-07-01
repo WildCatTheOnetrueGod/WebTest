@@ -1,0 +1,119 @@
+<style>
+.tab-content {
+    display: none;
+    width: 100%;
+    height: auto !important;     /* 確保高度不會被固定死 */
+    min-height: 100%;            /*基本維持滿高 */
+    box-sizing: border-box;
+    overflow-x: auto !important;/*用最高權限強制開啟水平滾動 */
+    padding: 5px;
+}
+
+.tab-content.active {
+    display: block;
+    padding: 5px;
+}
+</style>
+<div class="page_title">人際關係</div>
+<div style="padding: 5px; margin: 5px;">
+    <div class="tab-container">
+    <button class="tab-btn active" onclick="switchTab('char_Rel')">人物關係圖</button>
+    <button class="tab-btn" onclick="switchTab('char_List')">人物列表</button>
+    </div>
+
+<div id="char_Rel" class="tab-content active chart">
+   <div style="border: 2px dashed var(--border-blue);padding: 5px; margin: 5px; width: 200px; height: 100px; background-color: var(--bright-blue-trans)" class="page_article">
+※箭頭樣式
+    ╌╌╌ ：不公開關係
+    ─── ：公開關係
+    </div>
+    <div class="relation-stage" id="relation-stage">
+        <svg class="relation-svg" id="relation-svg">
+            <defs id="svg-defs"></defs>
+            <g id="svg-lines"></g>
+        </svg>
+    </div>
+</div>
+
+<div id="char_List" class="tab-content character">
+    <div id="database-container"></div>
+</div>
+</div>
+
+
+<script>
+// 使用 window 屬性檢查，防止嵌入式網頁重複宣告噴錯
+if (!window.orgColor) {
+    window.orgColor = [//組織名稱/框線顏色/背景顏色/文字顏色
+        { org: "鎮魔司", borderColer: "#ff4d4d", bgcolor: "rgba(255, 77, 77, 0.12)", color: "#ffffff" },
+        { org: "太乙仙門", borderColer: "#4da6ff", bgcolor: "rgba(77, 166, 255, 0.12)", color: "#ffffff" },
+        { org: "無生蓮教", borderColer: "#ff00ff", bgcolor: "rgba(255, 0, 255, 0.12)", color: "#ffffff" }
+    ];
+}
+// 讓區域變數直接指向 window 全域變數，後續的程式碼（如 orgColor.forEach）完全不需要改動
+var orgColor = window.orgColor; 
+
+if (!window.charRelL) {
+    window.charRelL = [
+    {   //角色id/角色姓名/頭像圖源
+        id: 1, name: "林長生", url: "https://picsum.photos/100?random=1",
+        org: [//隸屬組織/組織身分/狀態/在組織中的起始~結束時間/組織等級/對組織的觀點
+            { orgName: "鎮魔司", orgRole: "前鋒校尉", Status: "在職", date: "宣德三年至今", level: "正七品", view: "行事莽撞，但命硬得出奇。" },
+            { orgName: "太乙仙門", orgRole: "記名弟子", Status: "存續", date: "入世修行期", level: "練氣九層", view: "资质平平，卻身負大因果。" }
+        ],//角色定位/故事立場/連線顏色
+        role: "主角", POS: "正道", borderColer: "#ffcc00",
+        Rel: [//關係人角色id/關係定義/是否公開/關鍵事件/好感度/隱藏資訊/一句話評價對方
+            { id: 2, rel: [{ name: "師兄妹", is_public: "O", key_event: "古墓斬妖" }], liking: "85", hide: "暗戀師妹，曾為其擋下屍毒", view: "值得信賴的同門。" },
+            { id: 3, rel: [{ name: "宿敵", is_public: "X", key_event: "血月之變" }], liking: "-100", hide: "知曉黑衣人真实身份是其長兄", view: "此人不死，天理難容。" }
+        ]
+    },
+    {   
+        id: 2, name: "陸雪璃", url: "https://picsum.photos/100?random=2",
+        org: [
+            { orgName: "鎮魔司", orgRole: "隨軍祭司", Status: "借調", date: "近三個月", level: "從七品", view: "精通祛邪符籙，醫術精湛。" },
+            { orgName: "太乙仙門", orgRole: "核心真傳", Status: "存續", date: "承道十載", level: "築基初期", view: "下任掌門候選，道心清明。" }
+        ], 
+        role: "核心支援", POS: "中立", borderColer: "#00ffcc", 
+        Rel: [
+            { id: 1, rel: [{ name: "生死之交", is_public: "O", key_event: "古墓斬妖" }, { name: "情愫", is_public: "X", key_event: "贈送玉佩" }], liking: "90", hide: "實則為監視林長生體內的魔物而來", view: "希望他永遠不要入魔。" }
+        ]
+    },
+    {   
+        id: 3, name: "神秘黑衣人", url: "https://picsum.photos/100?random=3",
+        org: [
+            { orgName: "無生蓮教", orgRole: "十二法王", Status: "潛伏", date: "甲子年至今", level: "金丹肉身", view: "冷酷無情，擅長操縱詭異法陣。" }
+        ], 
+        role: "反派魔頭", POS: "反派", borderColer: "#ff00ff",
+        Rel: [
+            { id: 1, rel: [{ name: "獵物與誘餌", is_public: "X", key_event: "滅門慘案" }], liking: "-40", hide: "故意留下林長生性命以血祭邪神", view: "愚蠢的弟弟，繼續痛苦地變強吧。" },
+            { id: 5, rel: [{ name: "互助盟友", is_public: "O", key_event: "幽冥交易" }], liking: "20", hide: "隨時準備反噬對方", view: "各取所需的棋子罷了。" }
+        ]
+    },
+    {   
+        id: 4, name: "玄通真君", url: "https://picsum.photos/100?random=4",
+        org: [
+            { orgName: "太乙仙門", orgRole: "傳功長老", Status: "隱世", date: "歷經三朝", level: "元嬰大圓滿", view: "看透世事，唯獨對門派氣運耿耿於懷。" }
+        ],
+        role: "引路導師", POS: "正道", borderColer: "#32ff7e",
+        Rel: [
+            { id: 1, rel: [{ name: "記名師徒", is_public: "O", key_event: "賜予殘卷" }], liking: "60", hide: "算出林長生將引來滅世大劫", view: "禍福相依，全憑此子一念之間。" },
+            { id: 2, rel: [{ name: "嫡傳護道", is_public: "O", key_event: "賜予天書" }], liking: "95", hide: "將其視為太乙仙門最後的火種", view: "雪璃切記，不可動凡心。" }
+        ]
+    },
+    {   
+        id: 5, name: "黑市司商", url: "https://picsum.photos/100?random=5",
+        org: [
+            { orgName: "無生蓮教", orgRole: "外門執事", Status: "在職", date: "十載有餘", level: "築基中期", view: "唯利是圖，黑白兩道通吃。" }
+        ],
+        role: "情報販子", POS: "邪道", borderColer: "#7efff5",
+        Rel: [
+            { id: 1, rel: [{ name: "交易對象", is_public: "O", key_event: "購買禁術殘頁" }], liking: "40", hide: "曾悄悄向鎮魔司舉報林長生的行蹤", view: "出手大方的優質客戶。" }
+        ]
+    }
+];
+}
+var charRelL = window.charRelL;
+// 頁面載入完成後，直接呼叫外部共用程式碼的入口函式
+initGlobalTabs(window.orgColor, window.charRelL);
+
+</script>
