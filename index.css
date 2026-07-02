@@ -1436,9 +1436,7 @@ html,body {
     height: 600px; /* 目標網頁的原始高度 */
     border: none;
     position: absolute;
-    top: -150px;  /* 向上移動以隱藏頂部內容 */
-    frameborder="0";
-    marginheight="0";
-    marginwidth="0";
+    top: -200px;  /* 向上移動以隱藏頂部內容 */
+    
 }
 /*    notes使用結束    */
