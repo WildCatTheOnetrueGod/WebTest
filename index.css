@@ -1424,7 +1424,7 @@ html,body {
 /* 1. 外層容器：設定你希望顯示的畫面大小與範圍 */
 .comment-container {
     width: 640px;  /* 依需求調整寬度 */
-    height: 200px; /* 依需求調整高度 */
+    height: 400px; /* 依需求調整高度 */
     overflow: hidden;
     position: relative;
     border: 1px solid #ccc;
@@ -1433,7 +1433,7 @@ html,body {
 /* 2. 內層 iframe：往負方向偏移，將不需要的區域「推」出容器外 */
 .comment-container iframe {
     width: 640px;  /* 目標網頁的原始寬度 */
-    height: 600px; /* 目標網頁的原始高度 */
+    height: 900px; /* 目標網頁的原始高度 */
     border: none;
     position: absolute;
     top: -180px;  /* 向上移動以隱藏頂部內容 */
