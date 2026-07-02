@@ -1419,3 +1419,23 @@ html,body {
     line-height: 1.6;
 }
 /*    world_timeline使用結束    */
+
+/*    notes使用    */
+/* 1. 外層容器：設定你希望顯示的畫面大小與範圍 */
+.comment-container {
+    width: 640px;  /* 依需求調整寬度 */
+    height: 200px; /* 依需求調整高度 */
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #ccc;
+}
+
+/* 2. 內層 iframe：往負方向偏移，將不需要的區域「推」出容器外 */
+.comment-container iframe {
+    width: 640px;  /* 目標網頁的原始寬度 */
+    height: 421px; /* 目標網頁的原始高度 */
+    border: none;
+    position: absolute;
+    top: -100px;  /* 向上移動以隱藏頂部內容 */
+}
+/*    notes使用結束    */
