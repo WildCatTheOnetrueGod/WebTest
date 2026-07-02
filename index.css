@@ -1424,10 +1424,12 @@ html,body {
 /* 1. 外層容器：設定你希望顯示的畫面大小與範圍 */
 .comment-container {
     width: 640px;  /* 依需求調整寬度 */
-    height: 400px; /* 依需求調整高度 */
+    height: 380px; /* 依需求調整高度 */
     overflow: hidden;
     position: relative;
     border: 1px solid #ccc;
+    display: flex;
+    align-content: align-content:flex-end;
 }
 
 /* 2. 內層 iframe：往負方向偏移，將不需要的區域「推」出容器外 */
